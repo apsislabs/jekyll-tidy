@@ -20,7 +20,7 @@ module Jekyll
         include Tidy
 
         def write(dest)
-            puts "Tomato"
+            abort "Tomato"
             dest_path = destination(dest)
             output_tidied(dest_path, output)
         end
