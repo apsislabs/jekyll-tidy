@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "jekyll-tidy"
   spec.version       = Jekyll::Tidy::VERSION
   spec.authors       = ["Wyatt Kirby"]
-  spec.email         = ["kirby.wa@gmail.com"]
+  spec.email         = ["wyatt@apsis.io"]
   spec.summary       = %q{Sanitize and Tidy HTML Output for Jekyll}
-  spec.homepage      = ""
+  spec.homepage      = "http://www.apsis.io"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
