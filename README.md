@@ -1,24 +1,30 @@
 # Jekyll::Tidy
 
-TODO: Write a gem description
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'jekyll-tidy'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install jekyll-tidy
+`jekyll-tidy` is a plugin for tidying the HTML output of your Jekyll website, using either `htmlbeautifier` or `htmlcompressor`.
 
 ## Usage
 
-TODO: Write usage instructions here
+Usage is straightforward. Simply include the gem in your `Gemfile` with:
+
+```
+    gem 'jekyll-tidy'
+```
+
+And then include the plugin in a file located in your `_plugins` directory. You can also include the plugin using the `gems` option in your `_config.yml` file, like so:
+
+```
+    gems: [jekyll-tidy]
+```
+
+## Configuration
+
+`jekyll-tidy` takes two configuration settings, an array of files to exclude, and a flag for whether or not to compress the HTML output.
+
+```
+    jekyll_tidy:
+        exclude: [index.html]
+        compress_html: true
+```
 
 ## Contributing
 
