@@ -19,7 +19,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "jekyll"
   spec.add_dependency "htmlbeautifier"
-  spec.add_dependency "sanitize"
 
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake"
