@@ -4,7 +4,7 @@ require "nokogiri"
 module Jekyll
     module Tidy
         def output_tidied(dest, content)
-            tidied = Nokogiri::HTML(content).to_html
+            tidied = Nokogiri::HTML(content).to_xhtml(indent: 4)
             write_file(dest, tidied)
         end
 
@@ -20,6 +20,7 @@ module Jekyll
         include Tidy
 
         def write(dest)
+            puts "Tomato"
             dest_path = destination(dest)
             output_tidied(dest_path, output)
         end
