@@ -16,7 +16,7 @@ And then include the plugin in a file located in your `_plugins` directory. You 
     gems: [jekyll-tidy]
 ```
 
-Note that if you set the `compress_html` option to `true` and your templates have inline CSS or javascript, it will not be minified.
+**Note**: if you set the `compress_html` option to `true` and your templates have inline CSS or javascript, it will not be minified.
 
 ## Configuration
 
