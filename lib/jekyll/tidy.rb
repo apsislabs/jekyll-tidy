@@ -1,37 +1,20 @@
-require "jekyll/tidy/version"
-require "nokogiri"
+require "jekyll"
+require "htmlbeautifier"
+require "sanitize"
 
 module Jekyll
     module Tidy
-        def output_tidied(dest, content)
-            tidied = Nokogiri::HTML(content).to_xhtml(indent: 4)
-            write_file(dest, tidied)
+        def output_clean(output)
+            output = Sanitize.document(post.output, Sanitize::Config::RELAXED)
+            return HtmlBeautifier.beautify(output)
         end
 
-        def write_file(dest, content)
-            FileUtils.mkdir_p(File.dirname(dest))
-            File.open(dest, 'w') do |f|
-                f.write(content)
-            end
+        Jekyll::Hooks.register :posts, :post_render do |post|
+            post.output = output_clean(post.output)
         end
-    end
 
-    class Post
-        include Tidy
-
-        def write(dest)
-            abort "Tomato"
-            dest_path = destination(dest)
-            output_tidied(dest_path, output)
-        end
-    end
-
-    class Page
-        include Tidy
-
-        def write(dest)
-            dest_path = destination(dest)
-            output_tidied(dest_path, output)
+        Jekyll::Hooks.register :pages, :post_render do |page|
+            page.output = output_clean(page.output)
         end
     end
 end
