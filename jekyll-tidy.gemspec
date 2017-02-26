@@ -8,19 +8,23 @@ Gem::Specification.new do |spec|
   spec.version       = Jekyll::Tidy::VERSION
   spec.authors       = ["Wyatt Kirby"]
   spec.email         = ["wyatt@apsis.io"]
+
   spec.summary       = %q{Sanitize and Tidy HTML Output for Jekyll}
   spec.homepage      = "http://www.apsis.io"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(test|spec|features)/})
+  end
+  spec.bindir        = "exe"
+  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "jekyll"
-  spec.add_dependency "htmlbeautifier"
-  spec.add_dependency "htmlcompressor"
+  spec.add_runtime_dependency "jekyll"
+  spec.add_runtime_dependency "htmlbeautifier"
+  spec.add_runtime_dependency "htmlcompressor"
 
-  spec.add_development_dependency "bundler", "~> 1.6"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "bundler", "~> 1.14"
+  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "minitest", "~> 5.0"
 end
