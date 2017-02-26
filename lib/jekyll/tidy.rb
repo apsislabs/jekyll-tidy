@@ -10,13 +10,17 @@ module Jekyll
       @JEKYLL_CONFIG = site.config
     end
 
+    def self.jekyll_config
+      @JEKYLL_CONFIG || Jekyll.configuration({})
+    end
+
     def self.exclude?(path, override = {})
-      exclude_paths = @JEKYLL_CONFIG.merge(override).dig("jekyll_tidy", "exclude").to_a
+      exclude_paths = jekyll_config.merge(override).dig("jekyll_tidy", "exclude").to_a
       exclude_paths.any? { |exclude| File.fnmatch(exclude, path) }
     end
 
     def self.compress_output?
-      @JEKYLL_CONFIG.dig("jekyll_tidy", "compress_html")
+      jekyll_config.dig("jekyll_tidy", "compress_html")
     end
 
     def self.output_clean(output, compress = false)
@@ -28,7 +32,7 @@ module Jekyll
     end
 
     def self.ignore_env?
-      Jekyll.env == @JEKYLL_CONFIG.dig("jekyll_tidy", "ignore_env")
+      Jekyll.env == jekyll_config.dig("jekyll_tidy", "ignore_env")
     end
   end
 end
