@@ -1,5 +1,7 @@
 # Jekyll::Tidy
 
+[![Build Status](https://travis-ci.org/apsislabs/jekyll-tidy.svg?branch=master)](https://travis-ci.org/apsislabs/jekyll-tidy)
+
 `jekyll-tidy` is a plugin for tidying the HTML output of your Jekyll website, using either `htmlbeautifier` or `htmlcompressor`.
 
 ## Usage
