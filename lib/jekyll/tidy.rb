@@ -33,13 +33,13 @@ end
 # -------------------------------------
 
 Jekyll::Hooks.register :documents, :post_render do |doc|
-  unless Jekyll::Tidy::exclude?(doc.path, Jekyll::Tidy.compress_output?)
-    doc.output = Jekyll::Tidy::output_clean(doc.output)
+  unless Jekyll::Tidy::exclude?(doc.path)
+    doc.output = Jekyll::Tidy::output_clean(doc.output, Jekyll::Tidy.compress_output?)
   end
 end
 
 Jekyll::Hooks.register :pages, :post_render do |page|
-  unless Jekyll::Tidy::exclude?(page.path, Jekyll::Tidy.compress_output?)
-    page.output = Jekyll::Tidy::output_clean(page.output)
+  unless Jekyll::Tidy::exclude?(page.path)
+    page.output = Jekyll::Tidy::output_clean(page.output, Jekyll::Tidy.compress_output?)
   end
 end
