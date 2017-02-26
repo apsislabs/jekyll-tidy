@@ -6,7 +6,7 @@
 
 Usage is straightforward. Simply include the gem in your `Gemfile` with:
 
-```
+```ruby
   gem 'jekyll-tidy'
 ```
 
@@ -24,17 +24,23 @@ And then include the plugin in a file located in your `_plugins` directory. You 
 
 ```
   jekyll_tidy:
-    exclude: [index.html]
+    exclude: ["index.html"]
     compress_html: true
 ```
 
 ### exclude (default: [])
 
-`exclude` is an array of file paths that will be ignored by `jekyll-tidy`. At the moment the exclusions are driven by simple string matching, which means globs won't match files.
+`exclude` is an array of relative file paths that will be ignored by `jekyll-tidy`. Exclude must be set as an array, or it will cause errors.
 
 ```
-    exclude: [index.html] # excludes only index.html
-    exclude: ["bin/*"]    # does not exclude everything from the bin/ directory
+  exclude: ["index.html"] # excludes only index.html
+```
+
+`exclude` can also take a glob of file paths. *Note:* File globs must be wrapped with `""`.
+
+```
+  exclude: ["_posts/*.md"] # excludes all markdown files directly within the posts directory.
+  exclude: ["_posts/**/*.md"]  # excludes all markdown files anywhere within the _posts directory
 ```
 
 ### compress_html (default: false)
