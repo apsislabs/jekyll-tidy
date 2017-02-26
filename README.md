@@ -28,6 +28,7 @@ And then include the plugin in a file located in your `_plugins` directory. You 
   jekyll_tidy:
     exclude: ["index.html"]
     compress_html: true
+    ignore_env: development
 ```
 
 ### exclude (default: [])
@@ -49,6 +50,22 @@ And then include the plugin in a file located in your `_plugins` directory. You 
 
 If `compress_html` is set to `true` then `htmlcompressor` will be used to tidy the markup. If it
 is set to `false` then `htmlbeautifier` will be used to tidy the markup.
+
+### ignore_env (default: nil)
+
+If `ignore_env` is set to a string, we will check the `JEKYLL_ENV` environment variable and skip tidying if it matches. Setting `_config.yml` with:
+
+```
+ignore_env: development
+```
+
+And then running jekyll with:
+
+```sh
+$ JEKYLL_ENV=development jekyll serve
+```
+
+Will skip all tidying.
 
 ## Development
 
