@@ -24,6 +24,10 @@ module Jekyll
         return HtmlBeautifier.beautify output
       end
     end
+
+    def self.ignore_env?
+      Jekyll.env == JEKYLL_CONFIG.dig("jekyll_tidy", "ignore_env")
+    end
   end
 end
 
@@ -31,12 +35,14 @@ end
 # -------------------------------------
 
 Jekyll::Hooks.register :documents, :post_render do |doc|
+  next if Jekyll::Tidy.ignore_env?
   unless Jekyll::Tidy::exclude?(doc.relative_path)
     doc.output = Jekyll::Tidy::output_clean(doc.output, Jekyll::Tidy.compress_output?)
   end
 end
 
 Jekyll::Hooks.register :pages, :post_render do |page|
+  next if Jekyll::Tidy.ignore_env?
   unless Jekyll::Tidy::exclude?(page.relative_path)
     page.output = Jekyll::Tidy::output_clean(page.output, Jekyll::Tidy.compress_output?)
   end
