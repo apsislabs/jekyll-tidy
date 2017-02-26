@@ -8,9 +8,9 @@ JEKYLL_CONFIG = Jekyll.configuration({})
 
 module Jekyll
   module Tidy
-    def self.exclude?(path)
-      exclude_paths = JEKYLL_CONFIG.dig("jekyll_tidy", "exclude")
-      return exclude_paths.to_a.include?(path) unless exclude_paths.nil?
+    def self.exclude?(path, override = {})
+      exclude_paths = JEKYLL_CONFIG.merge(override).dig("jekyll_tidy", "exclude").to_a
+      exclude_paths.any? { |exclude| File.fnmatch(exclude, path) }
     end
 
     def self.compress_output?
@@ -31,13 +31,13 @@ end
 # -------------------------------------
 
 Jekyll::Hooks.register :documents, :post_render do |doc|
-  unless Jekyll::Tidy::exclude?(doc.path)
+  unless Jekyll::Tidy::exclude?(doc.relative_path)
     doc.output = Jekyll::Tidy::output_clean(doc.output, Jekyll::Tidy.compress_output?)
   end
 end
 
 Jekyll::Hooks.register :pages, :post_render do |page|
-  unless Jekyll::Tidy::exclude?(page.path)
+  unless Jekyll::Tidy::exclude?(page.relative_path)
     page.output = Jekyll::Tidy::output_clean(page.output, Jekyll::Tidy.compress_output?)
   end
 end
