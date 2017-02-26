@@ -32,9 +32,9 @@ module Jekyll
     end
 end
 
-Jekyll::Hooks.register :posts, :post_render do |post|
-    unless Jekyll::Tidy::exclude?(post.path)
-        post.output = Jekyll::Tidy::output_clean(post.output)
+Jekyll::Hooks.register :documents, :post_render do |doc|
+    unless Jekyll::Tidy::exclude?(doc.path)
+        doc.output = Jekyll::Tidy::output_clean(doc.output)
     end
 end
 
