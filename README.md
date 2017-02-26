@@ -30,16 +30,17 @@ And then include the plugin in a file located in your `_plugins` directory. You 
 
 ### exclude (default: [])
 
-`exclude` is an array of relative file paths that will be ignored by `jekyll-tidy`.
+`exclude` is an array of relative file paths that will be ignored by `jekyll-tidy`. Exclude must be set as an array, or it will cause errors.
 
 ```
-  exclude: [index.html] # excludes only index.html
+  exclude: ["index.html"] # excludes only index.html
 ```
 
-`exclude` can also take a glob of file paths. The following, for example, will exclude all `.md` files in the `_posts` directory, but will run `jekyll-tidy` on all other files in `_posts`.
+`exclude` can also take a glob of file paths. *Note:* File globs must be wrapped with `""`.
 
 ```
-  exclude: [_posts/*.md]
+  exclude: ["_posts/*.md"] # excludes all markdown files directly within the posts directory.
+  exclude: ["_posts/**/*.md"]  # excludes all markdown files anywhere within the _posts directory
 ```
 
 ### compress_html (default: false)
