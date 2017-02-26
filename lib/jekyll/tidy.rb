@@ -8,22 +8,20 @@ JEKYLL_CONFIG = Jekyll.configuration({})
 
 module Jekyll
   module Tidy
-    class << self
-      def exclude?(path)
-        exclude_paths = JEKYLL_CONFIG.dig(:jekyll_tidy, :exclude)
-        return exclude_paths.to_a.include?(path) unless exclude_paths.nil?
-      end
+    def self.exclude?(path)
+      exclude_paths = JEKYLL_CONFIG.dig("jekyll_tidy", "exclude")
+      return exclude_paths.to_a.include?(path) unless exclude_paths.nil?
+    end
 
-      def compress_output?
-        JEKYLL_CONFIG.dig(:jekyll_tidy, :compress_html)
-      end
+    def self.compress_output?
+      JEKYLL_CONFIG.dig("jekyll_tidy", "compress_html")
+    end
 
-      def output_clean(output, compress = false)
-        if compress
-          return HtmlCompressor::Compressor.new.compress output
-        else
-          return HtmlBeautifier.beautify output
-        end
+    def self.output_clean(output, compress = false)
+      if compress
+        return HtmlCompressor::Compressor.new.compress output
+      else
+        return HtmlBeautifier.beautify output
       end
     end
   end
