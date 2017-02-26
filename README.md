@@ -28,6 +28,20 @@ And then include the plugin in a file located in your `_plugins` directory. You 
         compress_html: true
 ```
 
+### exclude (default: [])
+
+`exclude` is an array of file paths that will be ignored by `jekyll-tidy`. At the moment the exclusions are driven by simple string matching, which means globs won't match files.
+
+```
+    exclude: [index.html] # excludes only index.html
+    exclude: ["bin/*"]    # does not exclude everything from the bin/ directory
+```
+
+### compress_html (default: false)
+
+If `compress_html` is set to `true` then `htmlcompressor` will be used to tidy the markup. If it
+is set to `false` then `htmlbeautifier` will be used to tidy the markup.
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/jekyll-tidy/fork )
