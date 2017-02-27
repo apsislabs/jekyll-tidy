@@ -21,7 +21,7 @@ module Jekyll
     end
 
     def self.compress_output?
-      config["jekyll_tidy"] && config["jekyll_tidy"]["compress_html"]
+      jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["compress_html"]
     end
 
     def self.output_clean(output, compress = false)
@@ -33,7 +33,7 @@ module Jekyll
     end
 
     def self.ignore_env?
-      Jekyll.env == (config["jekyll_tidy"] && config["jekyll_tidy"]["ignore_env"])
+      Jekyll.env == (jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["ignore_env"])
     end
   end
 end
