@@ -22,7 +22,7 @@ And then include the plugin in a file located in your `_plugins` directory. You 
 
 ## Configuration
 
-`jekyll-tidy` takes two configuration settings, an array of files to exclude, and a flag for whether or not to compress the HTML output.
+`jekyll-tidy` takes three configuration settings, an array of files to exclude, a flag for whether or not to compress the HTML output and a `JEKYLL_ENV` string on which to skip tidying.
 
 ```
   jekyll_tidy:
