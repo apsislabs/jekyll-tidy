@@ -8,11 +8,11 @@ module Jekyll
   module Tidy
     class << self
       def init(site)
-        @JEKYLL_CONFIG = site.config
+        @jekyll_config = site.config
       end
 
       def jekyll_config
-        @JEKYLL_CONFIG || Jekyll.configuration({})
+        @jekyll_config || Jekyll.configuration({})
       end
 
       def exclude?(path, override = {})
@@ -34,7 +34,9 @@ module Jekyll
       end
 
       def ignore_env?
-        Jekyll.env == (jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["ignore_env"])
+        Jekyll.env == (
+          jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["ignore_env"]
+        )
       end
     end
   end
