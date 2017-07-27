@@ -6,36 +6,36 @@ require "htmlcompressor"
 
 module Jekyll
   module Tidy
-    extend self
-
-    def init(site)
-      @JEKYLL_CONFIG = site.config
-    end
-
-    def jekyll_config
-      @JEKYLL_CONFIG || Jekyll.configuration({})
-    end
-
-    def exclude?(path, override = {})
-      config = jekyll_config.merge(override)
-      exclude_paths = config["jekyll_tidy"] && config["jekyll_tidy"]["exclude"]
-      exclude_paths.to_a.any? { |exclude| File.fnmatch(exclude, path) }
-    end
-
-    def compress_output?
-      jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["compress_html"]
-    end
-
-    def output_clean(output, compress = false)
-      if compress
-        HtmlCompressor::Compressor.new.compress output
-      else
-        HtmlBeautifier.beautify output
+    class << self
+      def init(site)
+        @JEKYLL_CONFIG = site.config
       end
-    end
 
-    def ignore_env?
-      Jekyll.env == (jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["ignore_env"])
+      def jekyll_config
+        @JEKYLL_CONFIG || Jekyll.configuration({})
+      end
+
+      def exclude?(path, override = {})
+        config = jekyll_config.merge(override)
+        exclude_paths = config["jekyll_tidy"] && config["jekyll_tidy"]["exclude"]
+        exclude_paths.to_a.any? { |exclude| File.fnmatch(exclude, path) }
+      end
+
+      def compress_output?
+        jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["compress_html"]
+      end
+
+      def output_clean(output, compress = false)
+        if compress
+          HtmlCompressor::Compressor.new.compress output
+        else
+          HtmlBeautifier.beautify output
+        end
+      end
+
+      def ignore_env?
+        Jekyll.env == (jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["ignore_env"])
+      end
     end
   end
 
