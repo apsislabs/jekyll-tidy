@@ -27,9 +27,9 @@ module Jekyll
 
       def output_clean(output, compress = false)
         if compress
-          HtmlCompressor::Compressor.new.compress output
+          return HtmlCompressor::Compressor.new.compress output
         else
-          HtmlBeautifier.beautify output
+          return HtmlBeautifier.beautify output
         end
       end
 
