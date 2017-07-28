@@ -6,55 +6,59 @@ require "htmlcompressor"
 
 module Jekyll
   module Tidy
-    def self.init(site)
-      @JEKYLL_CONFIG = site.config
-    end
+    class << self
+      def init(site)
+        @jekyll_config = site.config
+      end
 
-    def self.jekyll_config
-      @JEKYLL_CONFIG || Jekyll.configuration({})
-    end
+      def jekyll_config
+        @jekyll_config || Jekyll.configuration({})
+      end
 
-    def self.exclude?(path, override = {})
-      config = jekyll_config.merge(override)
-      exclude_paths = config["jekyll_tidy"] && config["jekyll_tidy"]["exclude"]
-      exclude_paths.to_a.any? { |exclude| File.fnmatch(exclude, path) }
-    end
+      def exclude?(path, override = {})
+        config = jekyll_config.merge(override)
+        exclude_paths = config["jekyll_tidy"] && config["jekyll_tidy"]["exclude"]
+        exclude_paths.to_a.any? { |exclude| File.fnmatch(exclude, path) }
+      end
 
-    def self.compress_output?
-      jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["compress_html"]
-    end
+      def compress_output?
+        jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["compress_html"]
+      end
 
-    def self.output_clean(output, compress = false)
-      if compress
-        return HtmlCompressor::Compressor.new.compress output
-      else
-        return HtmlBeautifier.beautify output
+      def output_clean(output, compress = false)
+        if compress
+          return HtmlCompressor::Compressor.new.compress output
+        else
+          return HtmlBeautifier.beautify output
+        end
+      end
+
+      def ignore_env?
+        Jekyll.env == (
+          jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["ignore_env"]
+        )
       end
     end
+  end
 
-    def self.ignore_env?
-      Jekyll.env == (jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["ignore_env"])
+  # Jekyll Hooks
+  # -------------------------------------
+
+  Hooks.register :site, :after_reset do |jekyll|
+    Tidy.init(jekyll)
+  end
+
+  Hooks.register :documents, :post_render do |doc|
+    next if Tidy.ignore_env?
+    unless Tidy.exclude?(doc.relative_path)
+      doc.output = Tidy.output_clean(doc.output, Tidy.compress_output?)
     end
   end
-end
 
-# Jekyll Hooks
-# -------------------------------------
-
-Jekyll::Hooks.register :site, :after_reset do |jekyll|
-  Jekyll::Tidy.init(jekyll)
-end
-
-Jekyll::Hooks.register :documents, :post_render do |doc|
-  next if Jekyll::Tidy.ignore_env?
-  unless Jekyll::Tidy::exclude?(doc.relative_path)
-    doc.output = Jekyll::Tidy::output_clean(doc.output, Jekyll::Tidy.compress_output?)
-  end
-end
-
-Jekyll::Hooks.register :pages, :post_render do |page|
-  next if Jekyll::Tidy.ignore_env?
-  unless Jekyll::Tidy::exclude?(page.relative_path)
-    page.output = Jekyll::Tidy::output_clean(page.output, Jekyll::Tidy.compress_output?)
+  Hooks.register :pages, :post_render do |page|
+    next if Tidy.ignore_env?
+    unless Tidy.exclude?(page.relative_path)
+      page.output = Tidy.output_clean(page.output, Tidy.compress_output?)
+    end
   end
 end
