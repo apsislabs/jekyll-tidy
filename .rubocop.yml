@@ -1,2 +1,10 @@
-inherit_gem:
-  jekyll: .rubocop.yml
+Documentation:
+  Enabled: false
+Metrics/LineLength:
+  Max: 90
+Style/GuardClause:
+  Enabled: false
+Style/RedundantReturn:
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
