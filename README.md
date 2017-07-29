@@ -12,10 +12,13 @@ Usage is straightforward. Simply include the gem in your `Gemfile` with:
   gem 'jekyll-tidy'
 ```
 
-And then include the plugin in a file located in your `_plugins` directory. You can also include the plugin using the `gems` option in your `_config.yml` file, like so:
+And then include the plugin in a file located in your `_plugins` directory. 
+
+You can also include the plugin using the `plugins` option in your `_config.yml` file, like so:
 
 ```
-  gems: [jekyll-tidy]
+  plugins: 
+    - jekyll-tidy
 ```
 
 **Note**: if you set the `compress_html` option to `true` and your templates have inline CSS or javascript, it will not be minified.
