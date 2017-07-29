@@ -15,10 +15,10 @@ module Jekyll
         @jekyll_config["jekyll_tidy"] || {}
       end
 
-      def exclude?(path, override = {})
-        config = jekyll_config.merge(override)
-        exclude_paths = config["jekyll_tidy"] && config["jekyll_tidy"]["exclude"]
-        exclude_paths.to_a.any? { |exclude| File.fnmatch(exclude, path) }
+      def exclude?(file_path)
+        jekyll_tidy_config["exclude"].to_a.any? do |exclude_path|
+          File.fnmatch? exclude_path, file_path, File::FNM_PATHNAME
+        end
       end
 
       def compress_output?
