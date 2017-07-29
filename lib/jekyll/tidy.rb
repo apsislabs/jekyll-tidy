@@ -11,8 +11,8 @@ module Jekyll
         @jekyll_config = config
       end
 
-      def jekyll_config
-        @jekyll_config || Jekyll.configuration({})
+      def jekyll_tidy_config
+        @jekyll_config["jekyll_tidy"] || {}
       end
 
       def exclude?(path, override = {})
@@ -22,7 +22,7 @@ module Jekyll
       end
 
       def compress_output?
-        jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["compress_html"]
+        jekyll_tidy_config["compress_html"] == true
       end
 
       def output_clean(output, compress = false)
@@ -34,9 +34,7 @@ module Jekyll
       end
 
       def ignore_env?
-        Jekyll.env == (
-          jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["ignore_env"]
-        )
+        Jekyll.env == jekyll_tidy_config["ignore_env"]
       end
     end
   end
