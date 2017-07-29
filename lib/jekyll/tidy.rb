@@ -15,6 +15,19 @@ module Jekyll
         @jekyll_config["jekyll_tidy"] || {}
       end
 
+      def output_clean(output)
+        if compress_output?
+          return HtmlCompressor::Compressor.new.compress output
+        else
+          return HtmlBeautifier.beautify output
+        end
+      end
+
+      def up(path, output)
+        return output if ignore_env?
+        output_clean(output) unless exclude?(path)
+      end
+
       def exclude?(file_path)
         jekyll_tidy_config["exclude"].to_a.any? do |exclude_path|
           File.fnmatch? exclude_path, file_path, File::FNM_PATHNAME
@@ -25,21 +38,8 @@ module Jekyll
         jekyll_tidy_config["compress_html"] == true
       end
 
-      def output_clean(output)
-        if compress_output?
-          return HtmlCompressor::Compressor.new.compress output
-        else
-          return HtmlBeautifier.beautify output
-        end
-      end
-
       def ignore_env?
         Jekyll.env == jekyll_tidy_config["ignore_env"]
-      end
-
-      def up(path, output)
-        return output if ignore_env?
-        output_clean(output) unless exclude?(path)
       end
     end
   end
