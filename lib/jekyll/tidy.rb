@@ -7,8 +7,8 @@ require "htmlcompressor"
 module Jekyll
   module Tidy
     class << self
-      def init(site)
-        @jekyll_config = site.config
+      def init(config)
+        @jekyll_config = config
       end
 
       def jekyll_config
@@ -44,8 +44,8 @@ module Jekyll
   # Jekyll Hooks
   # -------------------------------------
 
-  Hooks.register :site, :after_reset do |jekyll|
-    Tidy.init(jekyll)
+  Hooks.register :site, :after_init do |site|
+    Tidy.init(site.config)
   end
 
   Hooks.register :documents, :post_render do |doc|
