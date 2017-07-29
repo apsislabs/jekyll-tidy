@@ -25,8 +25,8 @@ module Jekyll
         jekyll_tidy_config["compress_html"] == true
       end
 
-      def output_clean(output, compress = false)
-        if compress
+      def output_clean(output)
+        if compress_output?
           return HtmlCompressor::Compressor.new.compress output
         else
           return HtmlBeautifier.beautify output
@@ -49,14 +49,14 @@ module Jekyll
   Hooks.register :documents, :post_render do |doc|
     next if Tidy.ignore_env?
     unless Tidy.exclude?(doc.relative_path)
-      doc.output = Tidy.output_clean(doc.output, Tidy.compress_output?)
+      doc.output = Tidy.output_clean(doc.output)
     end
   end
 
   Hooks.register :pages, :post_render do |page|
     next if Tidy.ignore_env?
     unless Tidy.exclude?(page.relative_path)
-      page.output = Tidy.output_clean(page.output, Tidy.compress_output?)
+      page.output = Tidy.output_clean(page.output)
     end
   end
 end
