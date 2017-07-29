@@ -36,6 +36,11 @@ module Jekyll
       def ignore_env?
         Jekyll.env == jekyll_tidy_config["ignore_env"]
       end
+
+      def up(path, output)
+        return output if ignore_env?
+        output_clean(output) unless exclude?(path)
+      end
     end
   end
 
@@ -47,16 +52,10 @@ module Jekyll
   end
 
   Hooks.register :documents, :post_render do |doc|
-    next if Tidy.ignore_env?
-    unless Tidy.exclude?(doc.relative_path)
-      doc.output = Tidy.output_clean(doc.output)
-    end
+    doc.output = Tidy.up(doc.relative_path, doc.output)
   end
 
   Hooks.register :pages, :post_render do |page|
-    next if Tidy.ignore_env?
-    unless Tidy.exclude?(page.relative_path)
-      page.output = Tidy.output_clean(page.output)
-    end
+    page.output = Tidy.up(page.relative_path, page.output)
   end
 end
