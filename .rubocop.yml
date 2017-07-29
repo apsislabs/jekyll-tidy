@@ -1,10 +1,26 @@
 Documentation:
   Enabled: false
+Layout/IndentArray:
+  EnforcedStyle: consistent
+Layout/IndentHash:
+  EnforcedStyle: consistent
 Metrics/LineLength:
   Max: 90
+Metrics/MethodLength:
+  Max: 24
+Style/BracesAroundHashParameters:
+  Enabled: false
 Style/GuardClause:
   Enabled: false
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    "%w": "()"
+    "%W": "()"
 Style/RedundantReturn:
   Enabled: false
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: consistent_comma
