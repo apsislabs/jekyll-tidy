@@ -7,36 +7,39 @@ require "htmlcompressor"
 module Jekyll
   module Tidy
     class << self
-      def init(site)
-        @jekyll_config = site.config
+      def init(config)
+        @jekyll_config = config
       end
 
-      def jekyll_config
-        @jekyll_config || Jekyll.configuration({})
+      def jekyll_tidy_config
+        @jekyll_config["jekyll_tidy"] || {}
       end
 
-      def exclude?(path, override = {})
-        config = jekyll_config.merge(override)
-        exclude_paths = config["jekyll_tidy"] && config["jekyll_tidy"]["exclude"]
-        exclude_paths.to_a.any? { |exclude| File.fnmatch(exclude, path) }
-      end
-
-      def compress_output?
-        jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["compress_html"]
-      end
-
-      def output_clean(output, compress = false)
-        if compress
+      def output_clean(output)
+        if compress_output?
           return HtmlCompressor::Compressor.new.compress output
         else
           return HtmlBeautifier.beautify output
         end
       end
 
+      def up(path, output)
+        return output if ignore_env?
+        output_clean(output) unless exclude?(path)
+      end
+
+      def exclude?(file_path)
+        jekyll_tidy_config["exclude"].to_a.any? do |exclude_path|
+          File.fnmatch? exclude_path, file_path, File::FNM_PATHNAME
+        end
+      end
+
+      def compress_output?
+        jekyll_tidy_config["compress_html"] == true
+      end
+
       def ignore_env?
-        Jekyll.env == (
-          jekyll_config["jekyll_tidy"] && jekyll_config["jekyll_tidy"]["ignore_env"]
-        )
+        Jekyll.env == jekyll_tidy_config["ignore_env"]
       end
     end
   end
@@ -44,21 +47,15 @@ module Jekyll
   # Jekyll Hooks
   # -------------------------------------
 
-  Hooks.register :site, :after_reset do |jekyll|
-    Tidy.init(jekyll)
+  Hooks.register :site, :after_init do |site|
+    Tidy.init(site.config)
   end
 
   Hooks.register :documents, :post_render do |doc|
-    next if Tidy.ignore_env?
-    unless Tidy.exclude?(doc.relative_path)
-      doc.output = Tidy.output_clean(doc.output, Tidy.compress_output?)
-    end
+    doc.output = Tidy.up(doc.relative_path, doc.output)
   end
 
   Hooks.register :pages, :post_render do |page|
-    next if Tidy.ignore_env?
-    unless Tidy.exclude?(page.relative_path)
-      page.output = Tidy.output_clean(page.output, Tidy.compress_output?)
-    end
+    page.output = Tidy.up(page.relative_path, page.output)
   end
 end
