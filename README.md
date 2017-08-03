@@ -12,7 +12,7 @@ Usage is straightforward. Simply include the gem in your `Gemfile` with:
   gem 'jekyll-tidy'
 ```
 
-And then include the plugin in a file located in your `_plugins` directory. You can also include the plugin using the `gems` option in your `_config.yml` file, like so:
+And then include the plugin in a file located in your `_plugins` directory. You can also include the plugin using the `gems` option (or `plugins`, if you're on Jekyll 3.5 and above), in your `_config.yml` file, like so:
 
 ```
   gems: [jekyll-tidy]
