@@ -99,6 +99,15 @@ will skip all tidying.
 
 The `html_beautifier` option will pass a hash of options on to the underlying HTML Beautifier class.
 
+These can be configured like so:
+
+```yaml
+jekyll_tidy:
+  html_beautifier:
+    indent: "\t"
+    initial_level: 1
+```
+
 Available options are:
 
 - `indent` &mdash; what to indent with (`"  "`, `"\t"` etc.), default `"  "`
