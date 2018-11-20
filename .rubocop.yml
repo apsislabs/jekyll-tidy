@@ -1,5 +1,9 @@
 Documentation:
   Enabled: false
+Gemspec/OrderedDependencies:
+  Enabled: false
+Layout/EmptyLineAfterMagicComment:
+  Enabled: false
 Layout/IndentArray:
   EnforcedStyle: consistent
 Layout/IndentHash:
@@ -8,19 +12,29 @@ Metrics/LineLength:
   Max: 90
 Metrics/MethodLength:
   Max: 24
+Naming/FileName:
+  Enabled: false
 Style/BracesAroundHashParameters:
+  Enabled: false
+Style/Encoding:
   Enabled: false
 Style/GuardClause:
   Enabled: false
 Style/HashSyntax:
   EnforcedStyle: hash_rockets
+Style/MutableConstant:
+  Enabled: false
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
+    "%q": "{}"
+    "%Q": "{}"
     "%w": "()"
     "%W": "()"
 Style/RedundantReturn:
   Enabled: false
 Style/StringLiterals:
   EnforcedStyle: double_quotes
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma

@@ -1,2 +1,4 @@
-ruby:
+rubocop:
   config_file: .rubocop.yml
+  # version: 0.54.0 (default)
+  # http://help.houndci.com/configuration/rubocop

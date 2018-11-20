@@ -1,7 +1,7 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'jekyll/tidy/version'
+require "jekyll/tidy/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "jekyll-tidy"
@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Wyatt Kirby"]
   spec.email         = ["wyatt@apsis.io"]
 
-  spec.summary       = %q{Sanitize and Tidy HTML Output for Jekyll}
+  spec.summary       = "Sanitize and Tidy HTML Output for Jekyll"
   spec.homepage      = "http://www.apsis.io"
   spec.license       = "MIT"
 
