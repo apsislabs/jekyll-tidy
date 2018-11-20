@@ -20,7 +20,7 @@ module Jekyll
         if compress_output?
           return HtmlCompressor::Compressor.new.compress output
         else
-          opts = jekyll_tidy_config.key?('html_beautifier') ? jekyll_tidy_config['html_beautifier'] : {}
+          opts = jekyll_tidy_config['html_beautifier'] || {}
           opts = opts.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
           return HtmlBeautifier.beautify output, opts
         end
