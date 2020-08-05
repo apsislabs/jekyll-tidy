@@ -37,6 +37,7 @@ gems:
   * `exclude` &mdash; an array of files to exclude from tidying.
   * `ignore_env` &mdash; a `JEKYLL_ENV` string on which to skip tidying entirely.
   * `compress_html` &mdash; a flag for whether or not to compress the HTML output
+  * `html_beautifier` &mdash; options to pass to HTML beautifier.
 
 ```yaml
 jekyll_tidy:
@@ -93,6 +94,26 @@ $ JEKYLL_ENV=development jekyll serve
 ```
 
 will skip all tidying.
+
+### html_beautifier (default: {})
+
+The `html_beautifier` option will pass a hash of options on to the underlying HTML Beautifier class.
+
+These can be configured like so:
+
+```yaml
+jekyll_tidy:
+  html_beautifier:
+    indent: "\t"
+    initial_level: 1
+```
+
+Available options are:
+
+- `indent` &mdash; what to indent with (`"  "`, `"\t"` etc.), default `"  "`
+- `stop_on_errors` &mdash; raise an exception on a badly-formed document. Default is `false`, i.e. continue to process the rest of the document.
+- `initial_level` &mdash; The entire output will be indented by this number of steps. Default is `0`.
+- `keep_blank_lines` &mdash; an integer for the number of consecutive empty lines to keep in output.
 
 ## Development
 

@@ -36,6 +36,22 @@ module Jekyll
       assert_equal expected, actual
     end
 
+    def test_uses_html_beautifier_options
+      setup_fixtures({
+        "jekyll_tidy" => {
+          "html_beautifier" => {
+            "indent": "\t"
+          }
+        }
+      })
+
+      dirty_html = load_fixture("dirty.html")
+      expected = load_fixture("clean_tabs.html")
+      actual = Tidy.output_clean(dirty_html)
+
+      assert_equal expected, actual
+    end
+
     def test_matches_file_globs_correctly
       setup_fixtures({
         "jekyll_tidy" => {

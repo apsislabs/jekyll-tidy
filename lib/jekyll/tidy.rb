@@ -3,6 +3,7 @@ require "jekyll/tidy/version"
 require "jekyll"
 require "htmlbeautifier"
 require "htmlcompressor"
+require "byebug"
 
 module Jekyll
   module Tidy
@@ -19,7 +20,9 @@ module Jekyll
         if compress_output?
           return HtmlCompressor::Compressor.new.compress output
         else
-          return HtmlBeautifier.beautify output
+          opts = jekyll_tidy_config['html_beautifier'] || {}
+          opts = opts.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
+          return HtmlBeautifier.beautify output, opts
         end
       end
 
